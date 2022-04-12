@@ -163,18 +163,18 @@
                               win_layer {
 // Window Layer: Windows
 // .--------------------------------------------------------------.    .-----------------------------------------------------------.
-// |              |         |        |        |         |         |    |       |  UL     |  UM     |  UR     |  F12     |  PrtScn  |
+// |              |         |        |        |         |         |    |   +   |  UL     |  UM     |  UR     |  F12     |  PrtScn  |
 // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
 // |     CTRL     |         |        |        |         |         |    |       |  ML     |  MM     |  MR     |  F11     | CAPS LCK |
 // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-// |     SHIFT    |         |        |        |         |         |    |       |  BL     |  ML     |  MR     |          |          |
+// |     SHIFT    |         |        |        |         |         |    |   -   |  BL     |  ML     |  MR     |          |          |
 // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
 //                                   |  GUI   |         |   ALT   |    |       |         |  F10    |
 //                                   '--------+---------+---------'    '-------+---------+---------'
                         bindings = <
-          &none     &none   &none    &none     &none    &none           &none      &kp RC(RA(U))   &kp RC(RA(UARW))   &kp RC(RA(I))   &none   &kp LG(LS(N4))
-          &kp LCTL  &none   &none    &none     &none    &none           &none      &kp RC(RA(D))   &kp RC(RA(F))      &kp RC(RA(G))   &none   &kp CLCK
-          &kp LSFT  &none   &none    &none     &none    &none           &none      &kp RC(RA(J))   &kp RC(RA(DARW))   &kp RC(RA(K))   &none   &none
+          &none     &none   &none    &none     &none    &none           &kp RC(RA(MINUS))      &kp RC(RA(U))   &kp RC(RA(UARW))   &kp RC(RA(I))   &none   &kp LG(LS(N4))
+          &kp LCTL  &none   &none    &none     &none    &none           &kp RC(RA(LARW))      &kp RC(RA(D))   &kp RC(RA(F))      &kp RC(RA(G))   &kp RC(RA(RARW))   &kp CLCK
+          &kp LSFT  &none   &none    &none     &none    &none           &kp RC(RA(FSLH))      &kp RC(RA(J))   &kp RC(RA(DARW))   &kp RC(RA(K))   &none   &none
                                      &kp LGUI  &none    &kp LALT        &none      &none           &none
                         >;
                 };
