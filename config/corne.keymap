@@ -94,12 +94,12 @@
                         bindings = <
         &kp RS(N6) &kp RS(BSLH)   &kp RA(N2)    &kp RS(RA(N8))  &kp RS(RA(N9))  &kp RA(N7)  &kp MINUS     &kp RS(FSLH)  &none  &none  &none  &kp DEL
         &kp RS(N3) &none   &kp RA(N4)    &kp RS(N8)      &kp RS(N9)  &kp RS(EQUAL)          &kp RS(N1)     &kp FSLH   &kp RS(N7)   &none  &none  &kp BSLH
-        &kp RS(N5) &none   &kp RS(RBKT) &kp RA(N8)      &kp RA(N9)  &kp RA(RBKT)            &kp RS(MINUS)    &kp RS(N0)     &kp COMMA  &none  &none  &none
+        &kp RS(N5) &none   &kp RS(RBKT) &kp RA(N8)      &kp RA(N9)  &kp RA(RBKT)            &kp RS(MINUS)    &kp RS(N0)     &kp COMMA  &none  &none  &kp RS(N2)
                                       &trans    &mo ADJS  &trans                            &trans        &trans     &trans
                         >;
                 };
 
-
+ 
               nav_layer {
 // NAVIGATION Layer: Directions
 // .--------------------------------------------------------------.    .-----------------------------------------------------------.
@@ -133,9 +133,9 @@
 //                                 '--------+---------+---------'    '---------+---------+---------'
 
                         bindings = <
-    &kp NUM_0           &bt BT_SEL 0         &bt BT_SEL 1       &bt BT_SEL 2            &bt BT_SEL 3            &bt BT_SEL 4   &bt BT_CLR  &ext_power EP_ON  &ext_power EP_OFF  &none      &kp C_BRI_UP    &kp C_VOL_UP
-    &ext_power EP_ON    &rgb_ug RGB_TOG      &rgb_ug RGB_EFR    &rgb_ug RGB_HUI         &rgb_ug RGB_SAI         &rgb_ug RGB_TOG      &rgb_ug RGB_EFR    &rgb_ug RGB_HUI         &rgb_ug RGB_SAI      &kp C_BRI_DN    &kp C_VOL_DN
-    &ext_power EP_OFF   &none                &rgb_ug RGB_EFF    &rgb_ug RGB_HUD         &rgb_ug RGB_SAD         &rgb_ug RGB_EFF    &rgb_ug RGB_HUD         &rgb_ug RGB_SAD              &kp K_MUTE
+    &kp NUM_0           &bt BT_SEL 0         &bt BT_SEL 1       &bt BT_SEL 2            &bt BT_SEL 3            &bt BT_SEL 4             &bt BT_CLR  &ext_power EP_ON  &ext_power EP_OFF  &none      &kp C_BRI_UP    &kp C_VOL_UP
+    &ext_power EP_ON    &rgb_ug RGB_TOG      &rgb_ug RGB_EFR    &rgb_ug RGB_HUI         &rgb_ug RGB_SAI         &none                    &none       &rgb_ug RGB_SAI   &kp C_BRI_DN       &none      &none           &kp C_VOL_DN
+    &ext_power EP_OFF   &none                &rgb_ug RGB_EFF    &rgb_ug RGB_HUD         &rgb_ug RGB_SAD         &none                    &none       &none             &none              &none      &none           &kp K_MUTE
                                                                       &kp LALT      &none         &none                       &none       &none      &none
                         >;
                 };
