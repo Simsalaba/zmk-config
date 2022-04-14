@@ -50,9 +50,9 @@
 //                                   |  GUI   |   RSE   |   SPC   |       |  ENT  |   LWR   |  LALT   |
 //                                   '--------+---------+---------'       '-------+---------+---------'
                   bindings = <
-        &kp ESC        &kp Q    &kp W    &lt NAVI E  &lt WIN R     &kp T           &kp Y    &kp U      &kp I     &kp O     &kp P     &kp BKSP
+        &kp ESC        &kp Q    &kp W         &lt NAVI E  &lt WIN R     &kp T           &kp Y    &kp U      &kp I     &kp O     &kp P     &kp BKSP
         &mt LCTL TAB   &kp A    &hm LALT S    &hm LSFT D    &hm LCTL F   &kp G           &kp H    &hm RCTL J      &hm RSFT K     &hm RALT L     &kp SCLN  &kp LBKT
-        &kp LSFT       &kp Z    &kp X    &kp C    &kp V        &lt FUNC B           &kp N    &kp M      &kp DOT   &kp CMMA    &none  &kp QUOT
+        &kp LSFT       &kp Z    &kp X         &kp C    &kp V        &lt FUNC B           &kp N    &kp M      &kp DOT   &kp CMMA    &none  &kp QUOT
                                        &kp LGUI  &mo LOWER     &kp SPC    &mt ADJS RET  &mo RAISE  &kp LALT
                             >;
                 };
@@ -72,30 +72,29 @@
 
                   bindings = <
           &kp ESC          &none   &none   &none   &none   &kp KP_NUMLOCK      &kp FSLH   &kp NUM_7  &kp NUM_8  &kp NUM_9  &kp MINUS  &kp BKSP
-          &mt LCTL TAB     &none   &none   &none   &none   &none       &kp STAR   &kp NUM_4  &kp NUM_5  &kp NUM_6  &kp COMMA  &none
-          &kp LSFT         &none   &none   &none   &none   &none       &trans     &kp NUM_1  &kp NUM_2  &kp NUM_3  &kp EQUAL  &none
-                                           &trans  &trans  &trans      &trans     &mo ADJS   &kp NUM_0
+          &mt LCTL TAB     &none   &none   &none   &none   &none               &kp STAR   &kp NUM_4  &kp NUM_5  &kp NUM_6  &kp COMMA  &none
+          &kp LSFT         &none   &none   &none   &none   &none               &trans     &kp NUM_1  &kp NUM_2  &kp NUM_3  &kp EQUAL  &none
+                                           &trans  &trans  &trans              &trans     &mo ADJS   &kp NUM_0
                             >;
                 };
-
 
 
                 raise_layer {
 // RAISE Layer: Special Chars
 // .--------------------------------------------------------------.    .-----------------------------------------------------------.
-// |       &      |   *     |    @   |   {    |    }    |    |    |    |   +   |    -    |    €    |         |          |   DEL    |
+// |       &      |   *     |    @   |   {    |    }    |    |    |    |   +   |    -    |         |         |          |   DEL    |
 // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-// |       #      |         |    $   |   (    |    )    |    `    |    |   !   |    _    |    /    |         |          |     '    |
+// |       #      |         |    $   |   (    |    )    |    `    |    |   !   |    _    |         |    /    |   \      |     '    |
 // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-// |       %      |         |    ^   |   [    |    ]    |    ~    |    |   ?   |    =    |    ,    |         |          |          |
+// |       %      |         |    ^   |   [    |    ]    |    ~    |    |   ?   |    =    |    ,    |    <    |   >      |     ""   |
 // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
 //                                   |        |         |         |    |       |         |         |
 //                                   '--------+---------+---------'    '-------+---------+---------'
                         bindings = <
-        &kp RS(N6) &kp RS(BSLH)   &kp RA(N2)    &kp RS(RA(N8))  &kp RS(RA(N9))  &kp RA(N7)  &kp MINUS     &kp RS(FSLH)  &none  &none  &none  &kp DEL
-        &kp RS(N3) &none   &kp RA(N4)    &kp RS(N8)      &kp RS(N9)  &kp RS(EQUAL)          &kp RS(N1)     &kp FSLH   &kp RS(N7)   &kp RS(RA(N7))  &none  &kp BSLH
-        &kp RS(N5) &none   &kp RS(RBKT) &kp RA(N8)      &kp RA(N9)  &kp RA(RBKT)            &kp RS(MINUS)    &kp RS(N0)     &kp COMMA  &none  &none  &kp RS(N2)
-                                      &trans    &mo ADJS  &trans                            &trans        &trans     &trans
+        &kp RS(N6) &kp RS(BSLH)   &kp RA(N2)    &kp RS(RA(N8))  &kp RS(RA(N9))  &kp RA(N7)              &kp MINUS      &kp RS(FSLH)  &none      &none          &kp RS(N0)           &kp DEL
+        &kp RS(N3) &kp RS(N4)     &kp RA(N4)    &kp RS(N8)      &kp RS(N9)      &kp RS(EQUAL)           &kp RS(N1)     &kp FSLH      &none      &kp RS(N7)     &kp RS(RA(N7))  &kp BSLH
+        &kp RS(N5) &none          &kp RS(RBKT)  &kp RA(N8)      &kp RA(N9)      &kp RA(RBKT)            &kp RS(MINUS)  &kp RS(N0)    &kp COMMA  &kp LS(COMMA)  &kp LS(DOT)     &kp RS(N2)
+                                                &trans          &mo ADJS        &trans                  &trans         &trans        &trans
                         >;
                 };
 
