@@ -93,7 +93,7 @@
                         bindings = <
         &kp RS(N6) &kp RS(BSLH)   &kp RA(N2)    &kp RS(RA(N8))  &kp RS(RA(N9))  &kp RA(N7)              &kp MINUS      &kp RS(FSLH)  &none      &none          &kp RS(N0)           &kp DEL
         &kp RS(N3) &kp RS(N4)     &kp RA(N4)    &kp RS(N8)      &kp RS(N9)      &kp RS(EQUAL)           &kp RS(N1)     &kp FSLH      &none      &kp RS(N7)     &kp RS(RA(N7))  &kp BSLH
-        &kp RS(N5) &none          &kp RS(RBKT)  &kp RA(N8)      &kp RA(N9)      &kp RA(RBKT)            &kp RS(MINUS)  &kp RS(N0)    &kp COMMA  &kp GRAVE  &kp RA(GRAVE)     &kp RS(N2)
+        &kp RS(N5) &none          &kp RS(RBKT)  &kp RA(N8)      &kp RA(N9)      &kp RA(RBKT)            &kp RS(MINUS)  &kp RS(N0)    &kp COMMA  &kp GRAVE  &kp RS(RA(GRAVE))     &kp RS(N2)
                                                 &trans          &mo ADJS        &trans                  &trans         &trans        &trans
                         >;
                 };
