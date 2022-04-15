@@ -111,8 +111,8 @@
 //                                   |  GUI   |         |   ALT   |    |       |         |         |
 //                                   '--------+---------+---------'    '-------+---------+---------'
                         bindings = <
-          &trans     &none   &none    &none     &none    &none           &none      &kp PG_DN  &kp UARW   &kp PG_UP   &none  &kp LG(LS(F4))
-          &kp LCTL  &none   &none    &none     &none    &none           &none      &kp LARW   &kp DARW   &kp RARW  &none  &kp CLCK
+          &trans     &none   &none    &none     &none    &none          &none      &kp PG_DN  &kp UARW   &kp PG_UP   &none  &kp LG(LS(F4))
+          &kp LCTL  &none   &none    &none     &none    &none           &none      &kp LARW   &kp DARW   &kp RARW    &none  &kp CLCK
           &kp LSFT  &none   &none    &none     &none    &none           &none      &kp HOME   &none      &kp END     &none  &trans
                                      &kp LGUI  &none    &kp LALT        &trans     &trans    &trans
                         >;
