@@ -123,9 +123,9 @@
                 adjust_layer {
 // ADJUST Layer: Setting and Configurations
 // .------------------------------------------------------------.    .-------------------------------------------------------------.
-// |      0     |  BT 0   |  BT 1  |  BT 2  |  BT 3   |  BT 4   |    |  BT CLR |         |         |         | Bright Up|  Vol up  |
+// |      0     |  BT 0   |  BT 1  |  BT 2  |  BT 3   |  BT 4   |    |  BT CLR |    RR   |         |    FF   | Bright Up|  Vol up  |
 // |------------+---------+--------+--------+---------+---------|    |---------+---------+---------+---------+----------+----------|
-// | ExtPow ON  | RGB_TOG | RGB_EFR| HUE UP | RGB_SAI |         |    |         |         |         |         | Bright Dn|  Vol dn  |
+// | ExtPow ON  | RGB_TOG | RGB_EFR| HUE UP | RGB_SAI |         |    |         |    Prev |Play/Pau.|    Next | Bright Dn|  Vol dn  |
 // |------------+---------+--------+--------+---------+---------|    |---------+---------+---------+---------+----------+----------|
 // | ExtPow OFF |         | RGB_EFF| HUE DN | RGB_SAD |         |    |         |         |         |         |          |  Mute    |
 // '-------------------------------+--------+---------+---------+    |---------+---------+---------+-------------------------------'
@@ -133,7 +133,7 @@
 //                                 '--------+---------+---------'    '---------+---------+---------'
 
                         bindings = <
-    &kp NUM_0           &bt BT_SEL 0         &bt BT_SEL 1       &bt BT_SEL 2            &bt BT_SEL 3            &bt BT_SEL 4          &bt BT_CLR  &kp C_RR     &trans              &kp C_FF      &kp C_BRI_UP    &kp C_VOL_UP
+    &kp NUM_0           &bt BT_SEL 0         &bt BT_SEL 1       &bt BT_SEL 2            &kp none &kp none          &bt BT_CLR  &kp C_RR     &trans              &kp C_FF      &kp C_BRI_UP    &kp C_VOL_UP
     &ext_power EP_ON    &rgb_ug RGB_TOG      &rgb_ug RGB_EFR    &rgb_ug RGB_HUI         &rgb_ug RGB_SAI         &trans                    &trans       &kp C_PREV   &kp C_PP           &kp C_NEXT    &kp C_BRI_DN    &kp C_VOL_DN
     &ext_power EP_OFF   &trans                &rgb_ug RGB_EFF    &rgb_ug RGB_HUD         &rgb_ug RGB_SAD         &kp C_PWR                &trans       &trans        &trans              &trans         &trans           &kp K_MUTE
                                                                 &kp LALT                &trans                   &trans                    &trans       &trans        &trans
