@@ -8,6 +8,10 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>// defines readable layer index
+#include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/backlight.h>
+
+
 #define DEFAULT 0
 #define LOWER   1
 #define RAISE   2
@@ -147,8 +151,8 @@
 
             bindings = <
       &kp NUMBER_0      &bt BT_SEL 0        &bt BT_SEL 1           &bt BT_SEL 2           &bt BT_SEL 3            &bt BT_SEL 4   /**/        &bt BT_CLR  &kp C_RW    &trans      &kp C_FF     &kp C_BRI_UP  &kp C_VOL_UP
-      &ext_power EP_ON  &rgb_ug RGB_ON     &rgb_ug RGB_EFR        &rgb_ug RGB_HUI        &rgb_ug RGB_SAI         &trans         /**/        &trans      &kp C_PREV  &kp C_PP    &kp C_NEXT   &kp C_BRI_DN  &kp C_VOL_DN
-      &ext_power EP_OFF &rgb_ug RGB_OFF              &rgb_ug RGB_EFF        &rgb_ug RGB_HUD        &rgb_ug RGB_SAD         &kp RA(LG(Q))  /**/        &trans      &trans      &trans      &trans       &trans        &kp K_MUTE
+      &ext_power EP_ON  &rgb_ug RGB_TOG     &rgb_ug RGB_EFR        &rgb_ug RGB_HUI        &rgb_ug RGB_SAI         &trans         /**/        &trans      &kp C_PREV  &kp C_PP    &kp C_NEXT   &kp C_BRI_DN  &kp C_VOL_DN
+      &ext_power EP_OFF &rgb_ug RGB_TOG              &rgb_ug RGB_EFF        &rgb_ug RGB_HUD        &rgb_ug RGB_SAD         &kp RA(LG(Q))  /**/        &trans      &trans      &trans      &trans       &trans        &kp K_MUTE
                                                                                           &kp LALT  &trans  &trans               /**/        &trans      &trans      &trans
             >;
         };
