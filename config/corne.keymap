@@ -17,7 +17,6 @@
 #define ADJS    4
 #define FUNC    5
 #define WIN     6
-#define off_layer 7
 
 &mt {
     tapping-term-ms = <400>;
@@ -41,15 +40,7 @@
     combos {
         compatible = "zmk,combos";
 
-        gaming_layer_combo {
-            bindings = <&tog 8>;
-            key-positions = <2 3 4 7 8 9>;
-        };
 
-        suspend_layer_combo {
-            bindings = <&tog 7>;
-            key-positions = <14 15 16 19 20 21>;
-        };
     };
 
     keymap {
@@ -195,42 +186,7 @@
             >;
         };
 
-        off_layer {
-            // Off-layer: Sends no commands
-            // .--------------------------------------------------------------.    .-----------------------------------------------------------.
-            // |              |         |        |        |         |         |    |       |         |         |         |          |          |
-            // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-            // |     CTRL     |         |        |        |         |         |    |       |         |         |         |          |          |
-            // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-            // |     SHIFT    |         |        |        |         |         |    |       |         |         |         |          |          |
-            // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
-            //                                   |        |         |         |    |       |         |         |
-            //                                   '--------+---------+---------'    '-------+---------+---------'
-
-            bindings = <
-  &none   &none   &none   &none   &none   &none           &none   &none   &none   &none   &none   &none
-  &none   &none   &none   &none   &none   &none           &none   &none   &none   &none   &none   &none
-  &none   &none   &none   &none   &none   &none           &none   &none   &none   &none   &none   &none
-                          &none   &none   &none           &none   &none   &none
-            >;
-        };
-        // Gaming layed: removes mods from asd area
-            // .--------------------------------------------------------------.    .-----------------------------------------------------------.
-            // |              |         |        |        |         |         |    |       |         |         |         |          |          |
-            // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-            // |     CTRL     |         |        |        |         |         |    |       |         |         |         |          |          |
-            // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-            // |     SHIFT    |         |        |        |         |         |    |       |         |         |         |          |          |
-            // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
-            //                                   |        |         |         |    |       |         |         |
-            //                                   '--------
-        Layer__8 {
-            bindings = <
- &trans  &trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans  &trans         &trans  &trans
- &trans   &kp A   &kp S   &kp D   &kp F  &trans          &trans   &kp J   &kp K   &kp L  &kp SEMICOLON  &trans
- &trans  &trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans  &trans         &trans  &trans
-                         &trans  &trans  &trans          &trans  &trans  &trans
-            >;
-        };
+        
+        
     };
 };
