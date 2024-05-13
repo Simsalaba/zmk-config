@@ -125,7 +125,7 @@
                            &kp LGUI  &trans  &kp LALT          &trans     &trans    &trans
             >;
         };
-
+/*
              adjust_layer {
             // ADJUST Layer: Setting and Configurations
             // .------------------------------------------------------------.    .-------------------------------------------------------------.
@@ -145,7 +145,7 @@
                                                             &kp LALT  &trans  &trans                                                   &bl BL_TOG      &trans      &trans
         >;
         };
-
+*/
         function_layer {
             // Function Layer: Functionality
             // .--------------------------------------------------------------.    .-----------------------------------------------------------.
