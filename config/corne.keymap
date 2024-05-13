@@ -8,8 +8,6 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>// defines readable layer index
-//#include <dt-bindings/zmk/rgb.h>
-//#include <dt-bindings/zmk/backlight.h>
 
 
 #define DEFAULT 0
@@ -142,9 +140,9 @@
             // .------------------------------------------------------------.    .-------------------------------------------------------------.
             // |      0     |  BT 0   |  BT 1  |  BT 2  |  BT 3   |  BT 4   |    |  BT CLR |    RR   |         |    FF   | Bright Up|  Vol up  |
             // |------------+---------+--------+--------+---------+---------|    |---------+---------+---------+---------+----------+----------|
-            // | ExtPow ON  | RGB_TOG | RGB_EFR| HUE UP | RGB_SAI |         |    |         |    Prev |Play/Pau.|    Next | Bright Dn|  Vol dn  |
+            // | ExtPow ON  |         |        |        |         |         |    |         |    Prev |Play/Pau.|    Next | Bright Dn|  Vol dn  |
             // |------------+---------+--------+--------+---------+---------|    |---------+---------+---------+---------+----------+----------|
-            // | ExtPow OFF |         | RGB_EFF| HUE DN | RGB_SAD |         |    |         |         |         |         |          |  Mute    |
+            // | ExtPow OFF |         |         |       |         |         |    |         |         |         |         |          |  Mute    |
             // '-------------------------------+--------+---------+---------+    |---------+---------+---------+-------------------------------'
             //                                 |        |         |         |    |         |         |         |
             //                                 '--------+---------+---------'    '---------+---------+---------'
