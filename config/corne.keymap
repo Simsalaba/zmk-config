@@ -130,8 +130,8 @@ ZMK_LAYER(navigation_layer,
     // |            |         |        |        |         |         |    |         |         |         |         |          |  Mute    |
              &trans      &trans         &trans        &trans        &trans       &trans      &trans     &trans     &trans     &trans     &trans      &kp K_MUTE
     // '-------------------------------+--------+---------+---------+    |---------+---------+---------+-------------------------------'
-    //                                 |  GUI   |         |  Alt    |    | Toggle  |         |         |
-                                       &kp LGUI  &trans    &kp LALT        &bl BL_TOG &trans    &trans
+    //                                 |  GUI   |         |  Alt    |    |         |         |         |
+                                       &kp LGUI  &trans    &kp LALT        &trans &trans    &trans
     //                                 '--------+---------+---------'    '---------+---------+---------'
 )
 
