@@ -10,6 +10,8 @@
 #include "../zmk-helpers/helper.h"
 #include "../zmk-helpers/keypos_def/keypos_42keys.h"
 
+#define HOST_OS LINUX // Needed for unicode international_chars
+
 #define DEF     0
 #define NUM     1
 #define CHARS   2
