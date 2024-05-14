@@ -50,7 +50,7 @@ ZMK_COMBO(combo_paste,  &kp LC(V),  LB1 LB2, ALL)  // Ctrl + V, active on all la
 
 
 
-ZMK_LAYER(default_layer,
+ZMK_LAYER(Main,
     // DEFAULT LAYER
     // .--------------------------------------------------------------.       .-----------------------------------------------------------.
     // |   ESC        |    Q    |    W   |  E/NAV | R/WIN   |    T    |       |   Y   |    U    |    I    |    O    |     P    |   BKSP   |
@@ -69,7 +69,7 @@ ZMK_LAYER(default_layer,
 )
 
 
-ZMK_LAYER(numbers_layer,
+ZMK_LAYER(Numbers,
     // NUMBERS Layer: Media and Number Pad
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |     ESC      |         |        |        |         | Numlock |    |  / ?  |   7 &   |   8 *   |   9 (   |   - _    |   BKSP   |
@@ -87,7 +87,7 @@ ZMK_LAYER(numbers_layer,
 )
 
 
-ZMK_LAYER(chars_layer,
+ZMK_LAYER(Symbols,
     // RAISE Layer: Special Chars
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |       &      |   *     |    @   |   {    |    }    |    |    |    |   +   |    -    |         |         |          |   DEL    |
@@ -104,7 +104,7 @@ ZMK_LAYER(chars_layer,
     //                                   '--------+---------+---------'    '-------+---------+---------'
 )
 
-ZMK_LAYER(navigation_layer,
+ZMK_LAYER(Navi,
     // NAVIGATION Layer: Directions
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |              |         |        |        |         |         |    |       |  PG DN  |   UP    |  PG UP  |          |  PrtScn  |
@@ -122,7 +122,7 @@ ZMK_LAYER(navigation_layer,
 )
 
 
-    ZMK_LAYER(adjust_layer,
+    ZMK_LAYER(Adjust,
     // ADJUST Layer: Setting and Configurations
     // .------------------------------------------------------------.    .-------------------------------------------------------------.
     // |        |  BT 0   |  BT 1  |  BT 2  |  BT 3   |  BT 4   |    |  BT CLR |   Rew   |         |   FFwd  | Bright Up|  Vol Up  |
@@ -140,7 +140,7 @@ ZMK_LAYER(navigation_layer,
 )
 
 
-ZMK_LAYER(function_layer,
+ZMK_LAYER(Func,
     // Function Layer: Functionality
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |              |         |        |        |         |         |    |       |  F7     |  F8     |  F9     |  F12     |  PrtScn  |
@@ -158,7 +158,7 @@ ZMK_LAYER(function_layer,
 )
 
 
-        ZMK_LAYER(win_layer,
+        ZMK_LAYER(Tiling,
     // Window Layer: Windows
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |              |         |        |        |         |         |    |   +   |  UL     |  UM     |  UR     |  F12     |  PrtScn  |
