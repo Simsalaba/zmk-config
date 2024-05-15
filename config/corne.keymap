@@ -9,6 +9,7 @@
 #include <dt-bindings/zmk/bt.h>
 #include "../zmk-helpers/helper.h"
 
+
 #define DEF     0
 #define NUM     1
 #define CHARS   2
@@ -62,7 +63,7 @@ ZMK_LAYER(default_layer,
     //                                   |  GUI   |   RSE   |   SPC   |       |  ENT  |   LWR   |  LALT   |
                                           &kp LGUI  &mo 1  &kp SPACE          &mt 4 RET &mo 2 &kp BSPC
     //                                   '--------+---------+---------'       '-------+---------+---------'
-    
+
 )
 
 
