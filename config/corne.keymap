@@ -9,8 +9,8 @@
 #include <dt-bindings/zmk/bt.h>
 #include "../zmk-helpers/helper.h"
 #include "../zmk-helpers/keypos_def/keypos_42keys.h"
-#include "constants.h"
-
+//#include "constants.h"
+#define ___ &trans
 
 #define DEF     0
 #define NUM     1
