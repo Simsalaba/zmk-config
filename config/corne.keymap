@@ -49,8 +49,9 @@ ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
 // combos
 #undef COMBO_TERM
 #define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
-ZMK_COMBO(combo_copy,   &kp LC(C),  LB2 LB3, ALL)  // Ctrl + C, active on all layers
-ZMK_COMBO(combo_paste,  &kp LC(V),  LB1 LB2, ALL)  // Ctrl + V, active on all layers
+ZMK_COMBO(combo_copy,   &kp LC(C),  LB2 LB3, DEF NUM CHARS NAVI ADJS FUNC WIN)  // Ctrl + C, active on all layers except gaming
+ZMK_COMBO(combo_paste,  &kp LC(V),  LB1 LB2, DEF NUM CHARS NAVI ADJS FUNC WIN)  // Ctrl + V, active on all layers except gaming
+ZMK_COMBO(toggle_game, &tog GAM, RT1 RT4, DEF)  // toggle gaming layer on main
 
 
 
