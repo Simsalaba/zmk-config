@@ -31,16 +31,16 @@
 
 ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
     flavor = "tap-preferred";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <125>;
+    tapping-term-ms = <100>;
+    quick-tap-ms = <70>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_R THUMBS>;
 )
 
 ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
     flavor = "tap-preferred";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <125>;
+    tapping-term-ms = <100>;
+    quick-tap-ms = <70>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_L THUMBS>;
 )
@@ -97,18 +97,19 @@ ZMK_LAYER(Symbols,
     // RAISE Layer: Special Chars
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |       &      |   *     |    @   |   {    |    }    |    |    |    |   +   |    -    |         |         |          |   DEL    |
-          &kp RS(N6)  &kp RS(BSLH)  &kp RA(N2)  &kp RS(RA(N8))  &kp RS(RA(N9)) &kp RA(N7)  &kp MINUS &kp RS(FSLH)  ___  ___  &kp RS(N0) &kp DEL
+          &kp AMPERSAND &kp ASTERISK &kp AT &kp LEFT_BRACE &kp RIGHT_BRACE &kp PIPE &kp PLUS &kp MINUS ___ ___ &kp EQUAL &kp DELETE
     // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
     // |       #      |         |    $   |   (    |    )    |    `    |    |   !   |    _    |         |    /    |   \      |     '    |
-          &kp RS(N3)  ___     &kp RA(N4)   &kp RS(N8)    &kp RS(N9) &kp RS(EQUAL)  &kp RS(N1)  &kp FSLH ___  &kp RS(N7) &kp RS(RA(N7)) &kp BSLH
+          &kp HASH ___ &kp DOLLAR &kp LEFT_PAREN &kp RIGHT_PAREN &kp GRAVE &kp EXCLAMATION &kp UNDERSCORE ___ &kp SLASH &kp BACKSLASH &kp APOSTROPHE
     // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
     // |       %      |         |    ^   |   [    |    ]    |    ~    |    |   ?   |    =    |    ,    |    <    |   >      |    ""    |
-          &kp RS(N5)  ___     &kp RS(RBKT) &kp RA(N8)   &kp RA(N9) &kp RA(RBKT)  &kp RS(MINUS) &kp RS(N0) &kp COMMA &kp GRAVE &kp RS(GRAVE) &kp RS(N2)
+          &kp PERCENT ___ &kp CARET &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE &kp QUESTION &kp EQUAL &kp COMMA &kp LESS_THAN &kp GREATER_THAN &kp DOUBLE_QUOTE
     // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
     //                                   |        |         |         |    |       |         |         |
                                           ___   &mo 4     ___       ___    ___     ___
     //                                   '--------+---------+---------'    '-------+---------+---------'
 )
+
 
 ZMK_LAYER(Navi,
     // NAVIGATION Layer: Directions
