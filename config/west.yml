@@ -2,10 +2,16 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: manna-harbour
+      url-base: https://github.com/manna-harbour
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
+    - name: miryoku_zmk
+      remote: manna-harbour
+      revision: 559aa4beae75cb3206ab411b7da2adb9665c6896
+      path: miryoku
   self:
     path: config
