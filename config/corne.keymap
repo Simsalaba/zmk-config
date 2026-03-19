@@ -1,6 +1,46 @@
 // Copyright 2021 Manna Harbour
 // https://github.com/manna-harbour/miryoku
 
+#include <dt-bindings/zmk/keys.h>
 #include "custom_config.h"
 #include "../miryoku/miryoku/mapping/42/corne.h"
 #include "../miryoku/miryoku/miryoku.dtsi"
+
+/ {
+    behaviors {
+        // Keep Miryoku's layer-tap behavior, but allow tap-then-hold repeat on BSPC.
+        u_lt_bspc_rep: u_lt_bspc_rep {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <U_TAPPING_TERM>;
+            quick-tap-ms = <200>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&kp>;
+        };
+
+        // These macros target the macOS "ABC - Extended" input source.
+        sw_aring: sw_aring {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&kp LA(K) &kp A>;
+        };
+
+        sw_odiaeresis: sw_odiaeresis {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&kp LA(U) &kp O>;
+        };
+
+        sw_adiaeresis: sw_adiaeresis {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&kp LA(U) &kp A>;
+        };
+    };
+};

@@ -1,0 +1,169 @@
+layout: {zmk_keyboard: corne-drawer}
+layers:
+  Base:
+  - ['', Q, W, E, R, T, Y, U, I, O, P, Å]
+  - - ''
+    - {t: A, h: LGUI}
+    - {t: S, h: LALT}
+    - {t: D, h: LCTRL}
+    - {t: F, h: LSHFT}
+    - G
+    - H
+    - {t: J, h: LSHFT}
+    - {t: K, h: LCTRL}
+    - {t: L, h: LALT}
+    - {t: '''', h: LGUI}
+    - Ö
+  - - ''
+    - {t: Z, h: Button}
+    - {t: X, h: RALT}
+    - C
+    - V
+    - B
+    - N
+    - M
+    - ','
+    - {t: ., h: RALT}
+    - {t: /, h: Button}
+    - Ä
+  - - {t: ESC, h: Media}
+    - {t: SPACE, h: Nav}
+    - {t: TAB, h: Mouse}
+    - {t: RET, h: Sym}
+    - {t: BSPC, h: Num}
+    - {t: DEL, h: Fun}
+  Extra:
+  - ['', Q, W, E, R, T, Y, U, I, O, P, '']
+  - - ''
+    - {t: A, h: LGUI}
+    - {t: S, h: LALT}
+    - {t: D, h: LCTRL}
+    - {t: F, h: LSHFT}
+    - G
+    - H
+    - {t: J, h: LSHFT}
+    - {t: K, h: LCTRL}
+    - {t: L, h: LALT}
+    - {t: '''', h: LGUI}
+    - ''
+  - - ''
+    - {t: Z, h: Button}
+    - {t: X, h: RALT}
+    - C
+    - V
+    - B
+    - N
+    - M
+    - ','
+    - {t: ., h: RALT}
+    - {t: /, h: Button}
+    - ''
+  - - {t: ESC, h: Media}
+    - {t: SPACE, h: Nav}
+    - {t: TAB, h: Mouse}
+    - {t: RET, h: Sym}
+    - {t: BSPC, h: Num}
+    - {t: DEL, h: Fun}
+  Tap:
+  - ['', Q, W, E, R, T, Y, U, I, O, P, '']
+  - ['', A, S, D, F, G, H, J, K, L, '''', '']
+  - ['', Z, X, C, V, B, N, M, ',', ., /, '']
+  - [ESC, SPACE, TAB, RET, BSPC, DEL]
+  Button:
+  - ['', UNDO, Sft+DEL, Ctl+INS, Sft+INS, AGAIN, AGAIN, Sft+INS, Ctl+INS, Sft+DEL, UNDO, '']
+  - ['', LGUI, LALT, LCTRL, LSHFT, '', '', LSHFT, LCTRL, LALT, LGUI, '']
+  - - ''
+    - {t: UNDO, type: held}
+    - Sft+DEL
+    - Ctl+INS
+    - Sft+INS
+    - AGAIN
+    - AGAIN
+    - Sft+INS
+    - Ctl+INS
+    - Sft+DEL
+    - UNDO
+    - ''
+  - ['&mkp MB3', '&mkp MB1', '&mkp MB2', '&mkp MB2', '&mkp MB1', '&mkp MB3']
+  Nav:
+  - ['', '&bootloader', '&u_to_U_TAP', '&u_to_U_EXTRA', '&u_to_U_BASE', '', AGAIN, Sft+INS, Ctl+INS, Sft+DEL, UNDO, '']
+  - - ''
+    - LGUI
+    - LALT
+    - LCTRL
+    - LSHFT
+    - ''
+    - {t: '&caps_word', s: CAPS}
+    - LEFT
+    - DOWN
+    - UP
+    - RIGHT
+    - ''
+  - ['', '', RALT, '&u_to_U_NUM', '&u_to_U_NAV', '', INS, HOME, PG DN, PG UP, END, '']
+  - - ''
+    - {type: held}
+    - ''
+    - RET
+    - BSPC
+    - DEL
+  Mouse:
+  - ['', '&bootloader', '&u_to_U_TAP', '&u_to_U_EXTRA', '&u_to_U_BASE', '', AGAIN, Sft+INS, Ctl+INS, Sft+DEL, UNDO, '']
+  - ['', LGUI, LALT, LCTRL, LSHFT, '', '', '&mmv MOVE_LEFT', '&mmv MOVE_DOWN', '&mmv MOVE_UP', '&mmv MOVE_RIGHT', '']
+  - ['', '', RALT, '&u_to_U_SYM', '&u_to_U_MOUSE', '', '', '&msc SCRL_LEFT', '&msc SCRL_DOWN', '&msc SCRL_UP', '&msc SCRL_RIGHT', '']
+  - - ''
+    - ''
+    - {type: held}
+    - '&mkp MB2'
+    - '&mkp MB1'
+    - '&mkp MB3'
+  Media:
+  - ['', '&bootloader', '&u_to_U_TAP', '&u_to_U_EXTRA', '&u_to_U_BASE', '', RGB TOG, RGB EFF, RGB HUI, RGB SAI, RGB BRI, '']
+  - ['', LGUI, LALT, LCTRL, LSHFT, '', EP TOG, PREV, VOL DN, VOL UP, NEXT, '']
+  - - ''
+    - ''
+    - RALT
+    - '&u_to_U_FUN'
+    - '&u_to_U_MEDIA'
+    - ''
+    - {t: OUT TOG, s: OUT USB}
+    - {t: BT, h: '0', s: '&u_macro_u_bt_sel_0'}
+    - {t: BT, h: '1', s: '&u_macro_u_bt_sel_1'}
+    - {t: BT, h: '2', s: '&u_macro_u_bt_sel_2'}
+    - {t: BT, h: '3', s: '&u_macro_u_bt_sel_3'}
+    - ''
+  - - {type: held}
+    - ''
+    - ''
+    - STOP
+    - PP
+    - MUTE
+  Num:
+  - ['', '[', '7', '8', '9', ']', '', '&u_to_U_BASE', '&u_to_U_EXTRA', '&u_to_U_TAP', '&bootloader', '']
+  - ['', ;, '4', '5', '6', '=', '', LSHFT, LCTRL, LALT, LGUI, '']
+  - ['', '`', '1', '2', '3', \, '', '&u_to_U_NUM', '&u_to_U_NAV', RALT, '', '']
+  - - .
+    - '0'
+    - '-'
+    - ''
+    - {type: held}
+    - ''
+  Sym:
+  - ['', '{', '&', '*', (, '}', '', '&u_to_U_BASE', '&u_to_U_EXTRA', '&u_to_U_TAP', '&bootloader', '']
+  - ['', ':', $, '%', ^, +, '', LSHFT, LCTRL, LALT, LGUI, '']
+  - ['', '~', '!', '@', '#', '|', '', '&u_to_U_SYM', '&u_to_U_MOUSE', RALT, '', '']
+  - - (
+    - )
+    - _
+    - {type: held}
+    - ''
+    - ''
+  Fun:
+  - ['', F12, F7, F8, F9, PSCRN, '', '&u_to_U_BASE', '&u_to_U_EXTRA', '&u_to_U_TAP', '&bootloader', '']
+  - ['', F11, F4, F5, F6, SLCK, '', LSHFT, LCTRL, LALT, LGUI, '']
+  - ['', F10, F1, F2, F3, PAUSE BREAK, '', '&u_to_U_FUN', '&u_to_U_MEDIA', RALT, '', '']
+  - - APP
+    - SPACE
+    - TAB
+    - ''
+    - ''
+    - {type: held}
