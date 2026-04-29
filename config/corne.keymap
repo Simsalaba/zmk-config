@@ -35,16 +35,18 @@
 
 ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
     flavor = "tap-preferred";
-    tapping-term-ms = <100>;
-    quick-tap-ms = <70>;
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
+    require-prior-idle-ms = <125>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_R THUMBS>;
 )
 
 ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
     flavor = "tap-preferred";
-    tapping-term-ms = <100>;
-    quick-tap-ms = <70>;
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
+    require-prior-idle-ms = <125>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_L THUMBS>;
 )
