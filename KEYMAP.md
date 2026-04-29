@@ -7,6 +7,27 @@
 
 ## 🔌 Flashing Firmware
 
+### Building
+
+```bash
+# Recommended: build via GitHub Actions (fast)
+./build.sh
+
+# Or build locally with Docker (slow on Apple Silicon)
+./build.sh local
+
+# Build only one half locally
+./build.sh local left
+
+# Clean build cache
+./build.sh clean
+```
+
+The default `./build.sh` pushes your current branch, triggers GitHub Actions,
+waits for the build, and downloads the `.uf2` files to `firmware/`.
+
+### Flashing
+
 1. Download both `.uf2` files from the latest GitHub Actions build
 2. Connect one half via USB
 3. **Double-tap the reset button** → a USB drive called `NICENANO` appears
@@ -93,6 +114,10 @@ Activated by holding the **left thumb middle key** (NUM).
 ## 🔣 Layer 2: Symbols
 
 Activated by holding the **right thumb middle key** (CHARS).
+
+> **Note:** This layer uses Swedish-specific HID keycodes (e.g., `RS(N6)` for `&`,
+> `RA(N2)` for `@`). The comments show the actual character produced on a
+> Swedish OS keyboard layout.
 
 ```
 ┌──────┬──────┬──────┬──────┬──────┬──────┐  ┌──────┬──────┬──────┬──────┬──────┬──────┐
