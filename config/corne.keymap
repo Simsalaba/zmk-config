@@ -33,32 +33,46 @@
 
 #define HOST_OS LINUX // Needed for unicode international_chars
 
+// "Timeless" homerow mods (based on urob's config)
+// - balanced flavor: mod activates when another key is pressed+released while holding
+// - hold-trigger-on-release: allows combining mods on same hand, prevents rolling misfires
+// - 280ms tapping-term: large value makes behavior timer-insensitive
+// - 175ms quick-tap: rapid same-key repeats always produce taps
+// - 150ms require-prior-idle: eliminates delay during fast typing
 ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
-    flavor = "tap-preferred";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <150>;
-    require-prior-idle-ms = <125>;
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <175>;
+    require-prior-idle-ms = <150>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_R THUMBS>;
+    hold-trigger-on-release;
 )
 
 ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
-    flavor = "tap-preferred";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <150>;
-    require-prior-idle-ms = <125>;
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <175>;
+    require-prior-idle-ms = <150>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_L THUMBS>;
+    hold-trigger-on-release;
 )
 
 
 // combos
 #undef COMBO_TERM
 #define COMBO_TERM 40  // timeout of 40ms (default is 30ms if omitted)
-ZMK_COMBO(combo_copy,   &kp LC(C),  LB2 LB3, DEF NUM CHARS NAVI ADJS FUNC WIN)  // Ctrl + C, active on all layers except gaming
-ZMK_COMBO(combo_paste,  &kp LC(V),  LB1 LB2, DEF NUM CHARS NAVI ADJS FUNC WIN)  // Ctrl + V, active on all layers except gaming
-ZMK_COMBO(toggle_game, &tog GAM, RT1 RT4, DEF GAM)  // toggle gaming layer on/off
+ZMK_COMBO(combo_copy,   &kp LC(C),  LB2 LB3, DEF NUM CHARS NAVI ADJS FUNC WIN)  // X+C keys → Ctrl+C
+ZMK_COMBO(combo_paste,  &kp LC(V),  LB1 LB2, DEF NUM CHARS NAVI ADJS FUNC WIN)  // V+C keys → Ctrl+V
+ZMK_COMBO(combo_undo,   &kp LC(Z),  LB3 LB4, DEF NUM CHARS NAVI ADJS FUNC WIN)  // Z+X keys → Ctrl+Z
+ZMK_COMBO(combo_cut,    &kp LC(X),  LB1 LB3, DEF NUM CHARS NAVI ADJS FUNC WIN)  // V+X keys → Ctrl+X
+ZMK_COMBO(toggle_game,  &tog GAM,   RT1 RT4, DEF GAM, 25, 500)                   // U+P keys → toggle gaming (tight 25ms window, 500ms idle required)
+ZMK_COMBO(combo_caps,   &caps_word, LM0 RM0, DEF GAM)                            // G+H keys → caps word
+ZMK_COMBO(combo_sticky_shift, &sk LSHIFT, LH0 RH0, DEF GAM)                     // Space+Enter → one-shot shift
 
+// tri-layer: holding NUM + CHARS simultaneously activates Adjust layer
+ZMK_CONDITIONAL_LAYER(adjust_tri, NUM CHARS, ADJS)
 
 
 ZMK_LAYER(Main,
@@ -68,13 +82,13 @@ ZMK_LAYER(Main,
           &kp ESC       &kp Q    &kp W     &lt 3 E  &lt 6 R    &kp T            &kp Y      &kp U      &kp I      &kp O    &kp P  &kp DEL
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
     // |   CTRL/Tab   |    A    |    S   |   D    | F       |    G    |       |   H   |    J    |    K    |    L    |     Ö    |     Ä    |
-          &mt LCTRL TAB &kp A    &hmr LALT S  &hmr LSHIFT D &hmr LCTRL F &kp G    &kp H   &hml RCTRL J &hml RSHIFT K &hml RALT L  &kp SEMI &kp LBKT
+          &mt LCTRL TAB &kp A    &hml LALT S  &hml LSHIFT D &hml LCTRL F &kp G    &kp H   &hmr RCTRL J &hmr RSHIFT K &hmr RALT L  &kp SEMI &kp LBKT
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-    // |   SHFT       |    Z    |    X   |   C    |    V    | B/FUNC  |       |   N   |    M    |    .    |    ,    |     Å    |     NAV  |
+    // |   SHFT       |    Z    |    X   |   C    |    V    | B/FUNC  |       |   N   |    M    |    .    |    ,    |          |    Ä    |
           &kp LSHIFT    &kp Z    &kp X    &kp C    &kp V    &lt 5 B            &kp N    &kp M     &kp DOT   &kp COMMA ___  &kp SQT
     // '---------------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
-    //                                   |  GUI   |   RSE   |   SPC   |       |  ENT  |   LWR   |  LALT   |
-                                          &kp LGUI  &mo 1  &kp SPACE          &mt 4 RET &mo 2 &kp BSPC
+    //                                   |  GUI   |  NUM    |   SPC   |       |  ENT  |  CHARS  |  BKSP   |
+                                          &kp LGUI  &mo 1  &kp SPACE          &kp RET &mo 2 &kp BSPC
     //                                   '--------+---------+---------'       '-------+---------+---------'
 
 )
@@ -94,7 +108,7 @@ ZMK_LAYER(Numbers,
           &kp LSHIFT     ___    ___    ___    ___    ___            ___      &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp EQUAL  ___
     // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
     //                                   |        |         |         |    |       |         |    0 )  |
-                                          ___    ___    &kp TAB            ___        &mo 4     &kp NUMBER_0
+                                          ___    ___    &kp TAB            ___        &mo 2     &kp NUMBER_0
     //                                   '--------+---------+---------'    '-------+---------+---------'
 )
 
@@ -112,7 +126,7 @@ ZMK_LAYER(Symbols,
           &kp PERCENT ___ &kp CARET &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE &kp QUESTION &kp EQUAL &kp COMMA &kp LESS_THAN &kp GREATER_THAN &kp DQT
     // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
     //                                   |        |         |         |    |       |         |         |
-                                          ___   &mo 4     ___       ___    ___     ___
+                                          ___   &mo 1     ___       ___    ___     ___
     //                                   '--------+---------+---------'    '-------+---------+---------'
 )
 
@@ -122,9 +136,9 @@ ZMK_LAYER(Navi,
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
     // |              |         |        |        |         |         |    |       |  PG DN  |   UP    |  PG UP  |          |  PrtScn  |
           ___        ___    ___    ___    ___    ___      ___    &kp PG_DN  &kp UP    &kp PG_UP  ___     &kp LG(LS(F4))
-    // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
-    // |     CTRL     |         |        |        |         |         |    |       |  LEFT   |  DOWN   |  RIGHT  |          | CAPS LCK |
-          &kp LCTRL     ___    ___    ___    ___    ___      ___    &kp LEFT  &kp DOWN  &kp RIGHT  ___     &kp CLCK
+    // |--------------+---------+--------+--------+---------+---------|    |----------+---------+---------+---------+----------+----------|
+    // |     CTRL     |         |        |        |         |         |    | WORD LEFT|  LEFT   |  DOWN   |  RIGHT  | WORD RIGHT| CAPS LCK |
+          &kp LCTRL     ___    ___    ___    ___    ___      &kp LC(LEFT)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LC(RIGHT)  &kp CLCK
     // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
     // |     SHIFT    |         |        |        |         |         |    |       | PG HOME |         | PG END  |          |          |
           &kp LSHIFT    ___    ___    ___    ___    ___      ___    &kp HOME  ___    &kp END    ___     ___
@@ -195,13 +209,13 @@ ZMK_LAYER(Game,
           &kp ESC       &kp Q    &kp W     &kp  E  &lt 3 R    &kp T            &kp Y      &kp U      &kp I      &kp O    &kp P  &kp DEL
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
     // |   CTRL/Tab   |    A    |    S   |   D    | F       |    G    |       |   H   |    J    |    K    |    L    |     Ö    |     Ä    |
-          &mt LCTRL TAB &kp A    &kp S  &kp D     &kp F     &kp G                &kp H   &hml RCTRL J &hml RSHIFT K &hml RALT L  &kp SEMI &kp LBKT
+          &mt LCTRL TAB &kp A    &kp S  &kp D     &kp F     &kp G                &kp H   &hmr RCTRL J &hmr RSHIFT K &hmr RALT L  &kp SEMI &kp LBKT
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
-    // |   SHFT       |    Z    |    X   |   C    |    V    | B/FUNC  |       |   N   |    M    |    .    |    ,    |     Å    |     NAV  |
+    // |   SHFT       |    Z    |    X   |   C    |    V    | B/FUNC  |       |   N   |    M    |    .    |    ,    |          |    Ä     |
           &kp LSHIFT    &kp Z    &kp X    &kp C    &kp V    &lt 5 B            &kp N    &kp M     &kp DOT   &kp COMMA ___  &kp SQT
     // '---------------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
-    //                                   |  GUI   |   RSE   |   SPC   |       |  ENT  |   LWR   |  LALT   |
-                                          &kp LGUI  &mo 1  &kp SPACE          &mt 4 RET &mo 2 &kp BSPC
+    //                                   |  GUI   |  NUM    |   SPC   |       |  ENT  |  CHARS  |  BKSP   |
+                                          &kp LGUI  &mo 1  &kp SPACE          &kp RET &mo 2 &kp BSPC
     //                                   '--------+---------+---------'       '-------+---------+---------'
 
 )
