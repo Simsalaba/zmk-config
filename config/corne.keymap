@@ -123,7 +123,7 @@ ZMK_LAYER(Symbols,
           &kp HASH ___ &kp DOLLAR &kp LPAR &kp RPAR &kp GRAVE &kp EXCLAMATION &kp UNDERSCORE ___ &kp SLASH &kp BACKSLASH &kp APOSTROPHE
     // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
     // |       %      |         |    ^   |   [    |    ]    |    ~    |    |   ?   |    =    |    ,    |    <    |   >      |    ""    |
-          &kp PERCENT ___ &kp CARET &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE &kp QUESTION &kp EQUAL &kp COMMA &kp LESS_THAN &kp GREATER_THAN &kp DQT
+          &kp PERCENT ___ &kp CARET &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE &kp LS(MINUS) &kp EQUAL &kp COMMA &kp LESS_THAN &kp GREATER_THAN &kp DQT
     // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
     //                                   |        |         |         |    |       |         |         |
                                           ___   &mo 1     ___       ___    ___     ___
