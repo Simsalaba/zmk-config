@@ -282,12 +282,48 @@ Located in `config/corne.conf`:
 
 ---
 
+## 🐣 Tamagotchi Animation (nice!view)
+
+An optional animated pet widget for the right-half nice!view display. When enabled it replaces the default status screen with expressive EMO-style eyes that blink and react.
+
+### Enabling
+
+Uncomment the following lines:
+
+1. In `config/corne.conf` — enable the display driver:
+   ```
+   CONFIG_ZMK_DISPLAY=y
+   ```
+
+2. In `config/corne_right.conf` — swap the default widget for the tamagotchi:
+   ```
+   CONFIG_NICE_VIEW_WIDGET_STATUS=n
+   CONFIG_TAMAGOTCHI_WIDGET=y
+   ```
+
+3. Rebuild and flash the **right half** firmware.
+
+### Disabling
+
+Re-comment (add `#` prefix to) the same lines and rebuild. The display will either show the default nice!view status screen (if you keep `CONFIG_ZMK_DISPLAY=y`) or turn off entirely.
+
+---
+
 ## 📁 File Structure
 
 ```
 config/
-├── corne.keymap    # All layers, behaviors, combos
-├── corne.conf      # Board settings (debounce, BT, sleep)
-└── west.yml        # ZMK and module dependencies
-build.yaml          # CI build matrix (board/shield combos)
+├── corne.keymap        # All layers, behaviors, combos
+├── corne.conf          # Board settings (debounce, BT, sleep, display)
+├── corne_right.conf    # Right-half overrides (tamagotchi widget)
+├── west.yml            # ZMK and module dependencies
+├── zephyr/module.yml   # Registers the tamagotchi Zephyr module
+└── tamagotchi/         # Tamagotchi widget source
+    ├── CMakeLists.txt
+    ├── Kconfig
+    └── src/
+        ├── status_screen.c
+        ├── tamagotchi_widget.c
+        └── tamagotchi_widget.h
+build.yaml              # CI build matrix (board/shield combos)
 ```
