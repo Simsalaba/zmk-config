@@ -38,12 +38,12 @@
 // - hold-trigger-on-release: allows combining mods on same hand, prevents rolling misfires
 // - 280ms tapping-term: large value makes behavior timer-insensitive
 // - 175ms quick-tap: rapid same-key repeats always produce taps
-// - 150ms require-prior-idle: eliminates delay during fast typing
+// - 175ms require-prior-idle: eliminates HRM misfires during fast typing
 ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
     flavor = "balanced";
     tapping-term-ms = <280>;
     quick-tap-ms = <175>;
-    require-prior-idle-ms = <150>;
+    require-prior-idle-ms = <175>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_R THUMBS>;
     hold-trigger-on-release;
@@ -53,9 +53,22 @@ ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
     flavor = "balanced";
     tapping-term-ms = <280>;
     quick-tap-ms = <175>;
-    require-prior-idle-ms = <150>;
+    require-prior-idle-ms = <175>;
     bindings = <&kp>, <&kp>;
     hold-trigger-key-positions = <KEYS_L THUMBS>;
+    hold-trigger-on-release;
+)
+
+// Layer-taps with timeless settings (prevents accidental layer activation during fast typing)
+// Same approach as HRMs: require-prior-idle prevents misfires, balanced flavor
+// ensures layer only activates on deliberate hold + opposite-hand keypress
+ZMK_BEHAVIOR(ltl, hold_tap,  // left-hand layer-taps (E/NAV, R/WIN, B/FUNC)
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <175>;
+    require-prior-idle-ms = <175>;
+    bindings = <&mo>, <&kp>;
+    hold-trigger-key-positions = <KEYS_R THUMBS>;
     hold-trigger-on-release;
 )
 
@@ -79,13 +92,13 @@ ZMK_LAYER(Main,
     // DEFAULT LAYER
     // .--------------------------------------------------------------.       .-----------------------------------------------------------.
     // |   ESC        |    Q    |    W   |  E/NAV | R/WIN   |    T    |       |   Y   |    U    |    I    |    O    |     P    |   BKSP   |
-          &kp ESC       &kp Q    &kp W     &lt 3 E  &lt 6 R    &kp T            &kp Y      &kp U      &kp I      &kp O    &kp P  &kp DEL
+          &kp ESC       &kp Q    &kp W     &ltl 3 E  &ltl 6 R    &kp T            &kp Y      &kp U      &kp I      &kp O    &kp P  &kp DEL
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
     // |   CTRL/Tab   |    A    |    S   |   D    | F       |    G    |       |   H   |    J    |    K    |    L    |     Ö    |     Ä    |
           &mt LCTRL TAB &kp A    &hml LALT S  &hml LSHIFT D &hml LCTRL F &kp G    &kp H   &hmr RCTRL J &hmr RSHIFT K &hmr RALT L  &kp SEMI &kp LBKT
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
     // |   SHFT       |    Z    |    X   |   C    |    V    | B/FUNC  |       |   N   |    M    |    .    |    ,    |          |    Ä    |
-          &kp LSHIFT    &kp Z    &kp X    &kp C    &kp V    &lt 5 B            &kp N    &kp M     &kp DOT   &kp COMMA ___  &kp SQT
+          &kp LSHIFT    &kp Z    &kp X    &kp C    &kp V    &ltl 5 B            &kp N    &kp M     &kp DOT   &kp COMMA ___  &kp SQT
     // '---------------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
     //                                   |  GUI   |  NUM    |   SPC   |       |  ENT  |  CHARS  |  BKSP   |
                                           &kp LGUI  &mo 1  &kp SPACE          &kp RET &mo 2 &kp BSPC
@@ -206,13 +219,13 @@ ZMK_LAYER(Game,
     // DEFAULT LAYER
     // .--------------------------------------------------------------.       .-----------------------------------------------------------.
     // |   ESC        |    Q    |    W   |  E/NAV | R/NAV    |    T    |       |   Y   |    U    |    I    |    O    |     P    |   BKSP   |
-          &kp ESC       &kp Q    &kp W     &kp  E  &lt 3 R    &kp T            &kp Y      &kp U      &kp I      &kp O    &kp P  &kp DEL
+          &kp ESC       &kp Q    &kp W     &kp  E  &ltl 3 R    &kp T            &kp Y      &kp U      &kp I      &kp O    &kp P  &kp DEL
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
     // |   CTRL/Tab   |    A    |    S   |   D    | F       |    G    |       |   H   |    J    |    K    |    L    |     Ö    |     Ä    |
           &mt LCTRL TAB &kp A    &kp S  &kp D     &kp F     &kp G                &kp H   &hmr RCTRL J &hmr RSHIFT K &hmr RALT L  &kp SEMI &kp LBKT
     // |--------------+---------+--------+--------+---------+---------|       |-------+---------+---------+---------+----------+----------|
     // |   SHFT       |    Z    |    X   |   C    |    V    | B/FUNC  |       |   N   |    M    |    .    |    ,    |          |    Ä     |
-          &kp LSHIFT    &kp Z    &kp X    &kp C    &kp V    &lt 5 B            &kp N    &kp M     &kp DOT   &kp COMMA ___  &kp SQT
+          &kp LSHIFT    &kp Z    &kp X    &kp C    &kp V    &ltl 5 B            &kp N    &kp M     &kp DOT   &kp COMMA ___  &kp SQT
     // '---------------------------------+--------+---------+---------+       |-------+---------+---------+-------------------------------'
     //                                   |  GUI   |  NUM    |   SPC   |       |  ENT  |  CHARS  |  BKSP   |
                                           &kp LGUI  &mo 1  &kp SPACE          &kp RET &mo 2 &kp BSPC
