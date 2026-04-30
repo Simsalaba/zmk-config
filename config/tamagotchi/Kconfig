@@ -1,0 +1,4 @@
+config TAMAGOTCHI_WIDGET
+    bool "Tamagotchi pet widget for nice!view peripheral display"
+    depends on ZMK_DISPLAY
+    select LV_USE_CANVAS

@@ -127,18 +127,18 @@ ZMK_LAYER(Numbers,
 
 
 ZMK_LAYER(Symbols,
-    // RAISE Layer: Special Chars
+    // RAISE Layer: Special Chars (Swedish OS layout keycodes)
     // .--------------------------------------------------------------.    .-----------------------------------------------------------.
-    // |       &      |   *     |    @   |   {    |    }    |    |    |    |   +   |    -    |         |         |          |   DEL    |
-          &kp AMPERSAND &kp ASTERISK &kp AT &kp LEFT_BRACE &kp RIGHT_BRACE &kp PIPE &kp PLUS &kp MINUS ___ ___ &kp EQUAL &kp DELETE
+    // |       &      |   *     |    @   |   {    |    }    |    |    |    |   +   |    -    |         |         |    =     |   DEL    |
+          &kp RS(N6)  &kp RS(BSLH)  &kp RA(N2)  &kp RS(RA(N8))  &kp RS(RA(N9)) &kp RA(N7)  &kp MINUS &kp RS(FSLH)  ___  ___  &kp RS(N0) &kp DELETE
     // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
     // |       #      |         |    $   |   (    |    )    |    `    |    |   !   |    _    |         |    /    |   \      |     '    |
-          &kp HASH ___ &kp DOLLAR &kp LPAR &kp RPAR &kp GRAVE &kp EXCLAMATION &kp UNDERSCORE ___ &kp SLASH &kp BACKSLASH &kp APOSTROPHE
+          &kp RS(N3)  ___     &kp RA(N4)   &kp RS(N8)    &kp RS(N9) &kp RS(EQUAL)  &kp RS(N1)  &kp FSLH ___  &kp RS(N7) &kp RS(RA(N7)) &kp BSLH
     // |--------------+---------+--------+--------+---------+---------|    |-------+---------+---------+---------+----------+----------|
     // |       %      |         |    ^   |   [    |    ]    |    ~    |    |   ?   |    =    |    ,    |    <    |   >      |    ""    |
-          &kp PERCENT ___ &kp CARET &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE &kp QUESTION &kp EQUAL &kp COMMA &kp LESS_THAN &kp GREATER_THAN &kp DQT
+          &kp RS(N5)  ___     &kp RS(RBKT) &kp RA(N8)   &kp RA(N9) &kp RA(RBKT)  &kp RS(MINUS) &kp RS(N0) &kp COMMA &kp GRAVE &kp RS(GRAVE) &kp RS(N2)
     // '---------------------------------+--------+---------+---------+    |-------+---------+---------+-------------------------------'
-    //                                   |        |         |         |    |       |         |         |
+    //                                   |        |  NUM    |         |    |       |         |         |
                                           ___   &mo 1     ___       ___    ___     ___
     //                                   '--------+---------+---------'    '-------+---------+---------'
 )
