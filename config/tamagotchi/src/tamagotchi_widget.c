@@ -433,6 +433,13 @@ static void draw_lashes(int cx, int cy, int ew, int eh, bool right)
     set_px(ox + d * 4, oy - 1, fg);
 }
 
+static void schedule_blink(void)
+{
+    bl_cooldown = rng_range(120, 240);     /* 2-4 s at 60 fps */
+    bl_phase    = BL_IDLE;
+    bl_wink     = false;
+}
+
 static bool is_blinking(void)
 {
     return bl_phase == BL_CLOSING || bl_phase == BL_HOLD;
