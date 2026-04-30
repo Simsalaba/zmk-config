@@ -290,9 +290,14 @@ An optional animated pet widget for the right-half nice!view display. When enabl
 
 Uncomment the following lines:
 
-1. In `config/corne.conf` — enable the display driver:
+1. In `config/corne.conf` — enable the display and disable default ZMK widgets
+   (required to avoid linker conflicts with nice_view's own status screen):
    ```
    CONFIG_ZMK_DISPLAY=y
+   CONFIG_ZMK_WIDGET_LAYER_STATUS=n
+   CONFIG_ZMK_WIDGET_BATTERY_STATUS=n
+   CONFIG_ZMK_WIDGET_OUTPUT_STATUS=n
+   CONFIG_ZMK_WIDGET_WPM_STATUS=n
    ```
 
 2. In `config/corne_right.conf` — swap the default widget for the tamagotchi:
@@ -301,11 +306,11 @@ Uncomment the following lines:
    CONFIG_TAMAGOTCHI_WIDGET=y
    ```
 
-3. Rebuild and flash the **right half** firmware.
+3. Rebuild and flash **both halves** (left needs display enabled, right needs the widget).
 
 ### Disabling
 
-Re-comment (add `#` prefix to) the same lines and rebuild. The display will either show the default nice!view status screen (if you keep `CONFIG_ZMK_DISPLAY=y`) or turn off entirely.
+Re-comment (add `#` prefix to) the same lines and rebuild. The display will either show the default nice!view status screen (if you keep `CONFIG_ZMK_DISPLAY=y` and re-enable the default widgets) or turn off entirely.
 
 ---
 
