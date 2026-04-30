@@ -146,10 +146,16 @@ build_local() {
                 if [ ! -f .west/config ]; then
                     echo '==> Initializing west workspace...'
                     west init -l config
+                    echo '==> Fetching modules (first time)...'
+                    west update
+                    west zephyr-export
+                elif [ ! -d zmk ] || [ ! -f zephyr/.cmake/ZephyrConfig.cmake ]; then
+                    echo '==> Fetching/re-registering modules...'
+                    west update
+                    west zephyr-export
+                else
+                    echo '==> Modules cached, skipping west update'
                 fi
-                echo '==> Updating modules...'
-                west update
-                west zephyr-export
                 echo '==> Building ${s}...'
                 west build -s zmk/app -b ${BOARD} -d build/${s} -p auto \
                     -- -DSHIELD=\"${shields}\" -DZMK_CONFIG=/zmk_ws/config
@@ -187,10 +193,27 @@ build_local() {
 case "${1:-ci}" in
     ci|"")     build_ci ;;
     local)     build_local "${2:-both}" ;;
+    update)
+        echo -e "${YELLOW}▶ Updating ZMK/Zephyr modules...${NC}"
+        local WORKSPACE="$SCRIPT_DIR/.zmk_build"
+        docker run --rm \
+            -v "$WORKSPACE:/zmk_ws" \
+            -v "$SCRIPT_DIR/config:/zmk_ws/config" \
+            -w /zmk_ws \
+            "zmkfirmware/zmk-build-arm:3.5" \
+            sh -c "west update && west zephyr-export"
+        echo -e "${GREEN}✓ Modules updated${NC}"
+        ;;
     clean)
         echo -e "${YELLOW}▶ Cleaning local build cache...${NC}"
-        rm -rf "$SCRIPT_DIR/.zmk_build/build" "$OUTPUT_DIR"
-        echo -e "${GREEN}✓ Cleaned${NC}"
+        rm -rf "$SCRIPT_DIR/.zmk_build/build" "$SCRIPT_DIR/.zmk_build/zephyr/.cmake" "$OUTPUT_DIR"
+        echo -e "${GREEN}✓ Cleaned (modules kept, CMake cache cleared)${NC}"
+        echo -e "${CYAN}  Use './build.sh nuke' to remove everything including modules${NC}"
+        ;;
+    nuke)
+        echo -e "${YELLOW}▶ Removing entire build workspace...${NC}"
+        rm -rf "$SCRIPT_DIR/.zmk_build" "$OUTPUT_DIR"
+        echo -e "${GREEN}✓ Nuked${NC}"
         ;;
     help|-h|--help)
         echo "Usage: ./build.sh [command]"
@@ -198,7 +221,9 @@ case "${1:-ci}" in
         echo "Commands:"
         echo "  (default)       Build via GitHub Actions (fast, recommended)"
         echo "  local [side]    Build locally with Docker (side: left|right|both)"
-        echo "  clean           Remove local build cache and firmware"
+        echo "  update          Force-update ZMK/Zephyr modules in Docker cache"
+        echo "  clean           Remove build output (keeps cached modules)"
+        echo "  nuke            Remove everything including cached modules"
         echo "  help            Show this help"
         ;;
     *)

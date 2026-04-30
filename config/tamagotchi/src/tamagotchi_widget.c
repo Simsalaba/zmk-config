@@ -6,8 +6,7 @@
  * sub-expressions, and personality-driven state machine.
  *
  * States:
- *   HAPPY     – thin relaxed squint lines, gentle bounce (typing)
- *   SURPRISED – wide open eyes, brief hold (burst / wake-up)
+ *   HAPPY     – smiling eyes with upward curve, gentle bounce (typing)
  *   NEUTRAL   – default pill-block eyes, wandering gaze, blinks,
  *               random curious / thinking / wink sub-expressions
  *   SLEEPY    – half-closed, slow heavy movements
@@ -54,7 +53,7 @@
 #define HAPPY_H   26
 #define HAPPY_CR  10
 
-#define SURP_W    34          /* surprised: big and round */
+#define SURP_W    34          /* (unused, kept for sizing reference) */
 #define SURP_H    30
 #define SURP_CR   12
 
@@ -92,7 +91,6 @@
 
 enum emo_state {
     ST_HAPPY,
-    ST_SURPRISED,
     ST_NEUTRAL,
     ST_SLEEPY,
     ST_ASLEEP,
@@ -206,17 +204,23 @@ static void ease_toward(int *c, int t, int spd)
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Drawing – rounded rectangle with dithered glow edge
+ * Drawing – eye with iris, highlight, thick lid, and glow
  *
- * Three zones rendered in a single pass:
- *   core       → solid fill
- *   inner glow → 50 % checkerboard dither  (2 px ring)
- *   outer glow → 25 % dot-grid dither      (1 px ring)
+ * Structure (inside→out):
+ *   pupil     → small black circle (inverted glint)
+ *   iris      → white rounded-rect filling most of interior
+ *   sclera    → white border (thick on top = eyelid)
+ *   glow      → dithered fade (50 % → 25 %)
  * ═══════════════════════════════════════════════════════════ */
 
 #define GLOW_INNER 2
 #define GLOW_OUTER 1
 #define GLOW_TOTAL (GLOW_INNER + GLOW_OUTER)
+
+#define LID_TOP    4          /* thick upper eyelid */
+#define LID_SIDE   3          /* sclera border sides */
+#define LID_BOT    3          /* sclera border bottom */
+#define HL_R       3          /* highlight circle radius */
 
 static bool pt_in_rrect(int px, int py, int w, int h, int cr)
 {
@@ -230,8 +234,14 @@ static bool pt_in_rrect(int px, int py, int w, int h, int cr)
     return !(dx > 0 && dy > 0 && dx * dx + dy * dy > cr * cr);
 }
 
+static bool pt_in_circle(int px, int py, int cx, int cy, int r)
+{
+    int dx = px - cx, dy = py - cy;
+    return dx * dx + dy * dy <= r * r;
+}
+
 static void draw_eye(int cx, int cy, int w, int h, int cr,
-                     lv_color_t c)
+                     lv_color_t c, int gx, int gy)
 {
     if (w <= 0 || h <= 0) return;
 
@@ -252,25 +262,75 @@ static void draw_eye(int cx, int cy, int w, int h, int cr,
     int x0 = cx - tw / 2;
     int y0 = cy - th / 2;
 
+    /* iris (dark interior) — inset from core, shifted down for thick lid */
+    bool use_iris = (w >= 12 && h >= 12);
+    int iw  = w - LID_SIDE * 2;
+    int ih  = h - LID_TOP - LID_BOT;
+    int icr = cr > 4 ? cr - 3 : (cr > 1 ? cr - 1 : 0);
+    if (icr > iw / 2) icr = iw / 2;
+    if (icr > ih / 2) icr = ih / 2;
+    /* iris origin relative to core origin */
+    int ix0 = LID_SIDE;
+    int iy0 = LID_TOP;
+
+    /* highlight position: centered in iris, offset by gaze */
+    int hlx = ix0 + iw / 2 + gx / 3;
+    int hly = iy0 + ih / 2 + gy / 3;
+
     for (int py = 0; py < th; py++) {
         for (int px = 0; px < tw; px++) {
             if (!pt_in_rrect(px, py, tw, th, tcr)) continue;
 
             int sx = x0 + px;
             int sy = y0 + py;
-            int cpx = px - GLOW_TOTAL;
+            int cpx = px - GLOW_TOTAL;     /* core-relative */
             int cpy = py - GLOW_TOTAL;
             int mpx = px - GLOW_OUTER;
             int mpy = py - GLOW_OUTER;
 
             if (pt_in_rrect(cpx, cpy, w, h, cr)) {
-                set_px(sx, sy, c);                          /* solid */
+                /* inside core shape */
+                if (use_iris &&
+                    pt_in_rrect(cpx - ix0, cpy - iy0, iw, ih, icr)) {
+                    /* iris zone — check highlight first */
+                    if (pt_in_circle(cpx, cpy, hlx, hly, HL_R)) {
+                        set_px(sx, sy, bg);             /* pupil (black) */
+                    } else {
+                        set_px(sx, sy, c);              /* iris (white) */
+                    }
+                } else {
+                    set_px(sx, sy, c);                  /* sclera (white) */
+                }
             } else if (pt_in_rrect(mpx, mpy, mw, mh, mcr)) {
-                if ((sx + sy) % 2 == 0) set_px(sx, sy, c); /* 50 % */
+                if ((sx + sy) % 2 == 0) set_px(sx, sy, c); /* 50 % glow */
             } else {
                 if (sx % 2 == 0 && sy % 2 == 0)
-                    set_px(sx, sy, c);                      /* 25 % */
+                    set_px(sx, sy, c);                  /* 25 % glow */
             }
+        }
+    }
+
+    /* ── Cat-eye wing / integrated lash ──────────────────────
+     * The thick upper lid tapers outward+upward at both outer
+     * corners, creating a winged eyeliner look.  Drawn as
+     * solid sclera pixels extending from the corner.
+     * Only when eye is tall enough to have a visible lid. */
+    if (h >= 6) {
+        int ey_top = cy - h / 2;           /* top edge of core */
+        for (int side = 0; side < 2; side++) {
+            int dir = (side == 0) ? -1 : 1; /* left wing, right wing */
+            int wx  = cx + dir * (w / 2);    /* outer edge x */
+
+            /* wing: 5 pixels sweeping outward-upward, 2px thick at base */
+            set_px(wx + dir * 1, ey_top,     c);
+            set_px(wx + dir * 1, ey_top - 1, c);
+            set_px(wx + dir * 2, ey_top - 1, c);
+            set_px(wx + dir * 2, ey_top - 2, c);
+            set_px(wx + dir * 3, ey_top - 2, c);
+            set_px(wx + dir * 3, ey_top - 3, c);
+            set_px(wx + dir * 4, ey_top - 3, c); /* taper to 1px */
+            set_px(wx + dir * 4, ey_top - 4, c);
+            set_px(wx + dir * 5, ey_top - 5, c); /* tip */
         }
     }
 }
@@ -299,9 +359,18 @@ static void draw_rrect(int cx, int cy, int w, int h, int cr,
 static void draw_z(int x0, int y0, int sz, lv_color_t c)
 {
     if (sz < 2) return;
-    for (int i = 0; i < sz; i++) set_px(x0 + i, y0, c);           /* top  */
-    for (int i = 1; i < sz - 1; i++) set_px(x0 + sz - 1 - i, y0 + i, c);
-    for (int i = 0; i < sz; i++) set_px(x0 + i, y0 + sz - 1, c);  /* bot  */
+    /* top and bottom bars (2 px thick for visibility) */
+    for (int i = 0; i < sz; i++) {
+        set_px(x0 + i, y0, c);
+        set_px(x0 + i, y0 + 1, c);
+        set_px(x0 + i, y0 + sz - 1, c);
+        set_px(x0 + i, y0 + sz - 2, c);
+    }
+    /* diagonal (2 px thick) */
+    for (int i = 1; i < sz - 1; i++) {
+        set_px(x0 + sz - 1 - i, y0 + i, c);
+        set_px(x0 + sz - i,     y0 + i, c);
+    }
 }
 
 static void draw_zzz(void)
@@ -312,9 +381,9 @@ static void draw_zzz(void)
         int phase = (cycle + i * 40) % 120; /* staggered */
         if (phase >= 80) continue;          /* hidden part of cycle */
 
-        int sz = 3 + i;
-        int x  = EYE_R_CX + 14 + i * 7 + phase / 10;
-        int y  = EYE_CY   - 10 - phase / 3;
+        int sz = 5 + i * 2;                /* larger: 5, 7, 9 px */
+        int x  = EYE_R_CX + 16 + i * 10 + phase / 10;
+        int y  = EYE_CY   - 12 - phase / 3;
 
         if (y >= 0 && y + sz < DISP_H && x + sz < DISP_W)
             draw_z(x, y, sz, fg);
@@ -322,39 +391,38 @@ static void draw_zzz(void)
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Drawing – anime sparkle highlight (happy eyes only)
+ * Drawing – anime sparkle (happy eyes only)
  *
- * Black pupil circle in upper-right corner of each eye,
- * with a white highlight area + star/cross inside it.
+ * Adds a twinkle star near the existing highlight and
+ * small radiating lines for extra sparkle.
  * ═══════════════════════════════════════════════════════════ */
 
 static void draw_sparkle(int eye_cx, int eye_cy, int ew, int eh)
 {
     if (eh < 12 || ew < 12) return;
 
-    /* pupil: black filled circle in the upper-right quadrant */
-    int pr = 5;                             /* pupil radius */
-    int px = eye_cx + ew / 4;              /* offset right */
-    int py = eye_cy - eh / 5;             /* offset up */
+    /* position: near the highlight (upper-left quadrant of iris) */
+    int sx = eye_cx - ew / 6;
+    int sy = eye_cy - eh / 6;
 
-    for (int dy = -pr; dy <= pr; dy++)
-        for (int dx = -pr; dx <= pr; dx++)
-            if (dx * dx + dy * dy <= pr * pr)
-                set_px(px + dx, py + dy, bg);
-
-    /* highlight area: white 3×3 blob inside upper-right of pupil */
-    int hx = px + 2, hy = py - 2;
-    for (int dy = 0; dy < 2; dy++)
-        for (int dx = 0; dx < 2; dx++)
-            set_px(hx + dx, hy + dy, fg);
-
-    /* star/cross: small + shape below-left of the blob */
-    int sx = px - 1, sy = py + 1;
+    /* star/cross: + shape */
     set_px(sx, sy, fg);
     set_px(sx - 1, sy, fg);
     set_px(sx + 1, sy, fg);
     set_px(sx, sy - 1, fg);
     set_px(sx, sy + 1, fg);
+
+    /* diagonal rays */
+    set_px(sx - 1, sy - 1, fg);
+    set_px(sx + 1, sy - 1, fg);
+    set_px(sx - 1, sy + 1, fg);
+    set_px(sx + 1, sy + 1, fg);
+
+    /* extended rays for extra twinkle */
+    set_px(sx, sy - 2, fg);
+    set_px(sx, sy + 2, fg);
+    set_px(sx - 2, sy, fg);
+    set_px(sx + 2, sy, fg);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -376,61 +444,22 @@ static void draw_happy_marks(int cx, int cy, int eh)
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Drawing – eyebrow (arched line above each eye)
+ * Drawing – nose dot (tiny mark between the eyes)
  *
- * lift  = pixels above eye top
- * tilt  = angle: +raises outer end (happy/surprised),
- *                −lowers outer end (angry/annoyed)
- * right = true for right eye (mirrors tilt direction)
+ * Triggers face pareidolia even without a head frame.
+ * Moves slightly with vertical gaze.
  * ═══════════════════════════════════════════════════════════ */
 
-static void draw_eyebrow(int cx, int cy, int ew, int eh,
-                         int lift, int tilt, bool right)
+static void draw_nose(int gaze_y)
 {
-    if (eh < 4) return;                     /* eyes too small */
+    int nx = (EYE_L_CX + EYE_R_CX) / 2;   /* centered between eyes */
+    int ny = EYE_CY + 8 + gaze_y / 3;      /* below eye line, subtle gaze follow */
 
-    int hw = ew / 2 + 2;                   /* brow slightly wider than eye */
-    int yt = cy - eh / 2 - lift;           /* base y (top of eye + lift) */
-
-    for (int i = -hw; i <= hw; i++) {
-        /* parabolic arch: peaks in the middle */
-        int arch = (hw * hw - i * i) / (hw * 3 + 1);
-
-        /* tilt: raise outer end.  "outer" is left for left eye,
-         * right for right eye */
-        int t = right ? (i * tilt / (hw + 1))
-                      : (-i * tilt / (hw + 1));
-
-        int y = yt - arch - t;
-        set_px(cx + i, y,     fg);
-        set_px(cx + i, y - 1, fg);         /* 2 px thick */
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════
- * Drawing – eyelashes (3 small lines at outer-top corner)
- * ═══════════════════════════════════════════════════════════ */
-
-static void draw_lashes(int cx, int cy, int ew, int eh, bool right)
-{
-    if (eh < 6) return;                     /* hidden when eyes too small */
-
-    int ox = right ? cx + ew / 2 : cx - ew / 2;   /* outer edge x */
-    int oy = cy - eh / 2;                           /* top of eye */
-    int d  = right ? 1 : -1;                        /* fan direction */
-
-    /* lash 1: steep, close to corner */
-    set_px(ox + d * 1, oy - 1, fg);
-    set_px(ox + d * 1, oy - 2, fg);
-    set_px(ox + d * 2, oy - 3, fg);
-
-    /* lash 2: medium angle */
-    set_px(ox + d * 2, oy - 1, fg);
-    set_px(ox + d * 3, oy - 2, fg);
-
-    /* lash 3: shallow, most outward */
-    set_px(ox + d * 3, oy,     fg);
-    set_px(ox + d * 4, oy - 1, fg);
+    /* small 3-pixel inverted-V shape: · ·  */
+    /*                                  ·   */
+    set_px(nx - 1, ny,     fg);
+    set_px(nx + 1, ny,     fg);
+    set_px(nx,     ny + 1, fg);
 }
 
 static void schedule_blink(void)
@@ -550,7 +579,7 @@ static void set_state(enum emo_state s)
 
 static void update_state(void)
 {
-    /* Auto-return from SURPRISED / ANNOYED */
+    /* Auto-return from ANNOYED */
     if (return_timer > 0 && --return_timer == 0) {
         set_state(return_state);
         if (return_state == ST_ASLEEP)
@@ -604,33 +633,23 @@ static void compute_targets(void)
 
     switch (state) {
 
-    /* ── HAPPY ── looking down at hands, sparkly ── */
+    /* ── HAPPY ── smiling eyes (upward-curving squint) ── */
     case ST_HAPPY: {
+        /* Smiling eyes: wide but vertically squished = happy squint */
         tgt.lw = tgt.rw = fp(HAPPY_W);
-        tgt.lh = tgt.rh = fp(HAPPY_H);
+        tgt.lh = tgt.rh = fp(14);            /* squinted closed */
         tgt.lcr = tgt.rcr = fp(HAPPY_CR);
 
-        /* look down toward the hands with gentle sway */
-        tgt.dy = fp(10);
+        /* gentle downward gaze with sway */
+        tgt.dy = fp(4);
         int hp = frame % 60;
-        if      (hp < 20) tgt.dx = fp(-3);
-        else if (hp < 40) tgt.dx = fp(3);
+        if      (hp < 20) tgt.dx = fp(-2);
+        else if (hp < 40) tgt.dx = fp(2);
         else              tgt.dx = fp(0);
 
         ease_h_spd = EASE_FAST;
         break;
     }
-
-    /* ── SURPRISED ── wide open ────────────────── */
-    case ST_SURPRISED:
-        tgt.lw  = tgt.rw  = fp(SURP_W);
-        tgt.lh  = tgt.rh  = fp(SURP_H);
-        tgt.lcr = tgt.rcr = fp(SURP_CR);
-        tgt.dx  = 0;
-        tgt.dy  = 0;
-        ease_spd   = EASE_FAST;
-        ease_h_spd = EASE_FAST;
-        break;
 
     /* ── NEUTRAL ── default with dramatic looking around ── */
     case ST_NEUTRAL: {
@@ -680,15 +699,16 @@ static void compute_targets(void)
         tgt.lcr = tgt.rcr = fp(SLEEPY_CR);
         tgt.dy  = fp(2);
 
-        /* alternating tired eyes: one droops, then the other */
+        /* alternating tired eyes: one droops, then the other
+         * minimum height 8 keeps the pupil barely visible */
         int drowsy = frame % 300;            /* 5 s cycle */
         if (drowsy < 90) {
             tgt.lh = fp(SLEEPY_H + 8);      /* left fights open */
-            tgt.rh = fp(SLEEPY_H - 2);      /* right droops */
+            tgt.rh = fp(8);                  /* right droops, pupil peeking */
         } else if (drowsy < 120) {
             tgt.lh = tgt.rh = fp(SLEEPY_H); /* both equal */
         } else if (drowsy < 210) {
-            tgt.lh = fp(SLEEPY_H - 2);      /* left droops */
+            tgt.lh = fp(8);                  /* left droops, pupil peeking */
             tgt.rh = fp(SLEEPY_H + 8);      /* right fights open */
         } else {
             tgt.lh = tgt.rh = fp(SLEEPY_H); /* both settle low */
@@ -788,31 +808,12 @@ static void render(void)
     int ldx = gaze_x + compress;
     int rdx = gaze_x - compress;
 
-    /* Eyes (with dithered glow edge) */
-    draw_eye(EYE_L_CX + ldx, EYE_CY + gaze_y, lw, lh, lcr, fg);
-    draw_eye(EYE_R_CX + rdx, EYE_CY + gaze_y, rw, rh, rcr, fg);
+    /* Eyes (with iris, highlight, thick lid + cat-eye wing, glow) */
+    draw_eye(EYE_L_CX + ldx, EYE_CY + gaze_y, lw, lh, lcr, fg, gaze_x, gaze_y);
+    draw_eye(EYE_R_CX + rdx, EYE_CY + gaze_y, rw, rh, rcr, fg, gaze_x, gaze_y);
 
-    /* Eyelashes (outer-top corner of each eye) */
-    draw_lashes(EYE_L_CX + ldx, EYE_CY + gaze_y, lw, lh, false);
-    draw_lashes(EYE_R_CX + rdx, EYE_CY + gaze_y, rw, rh, true);
-
-    /* Eyebrows (expression-dependent arch + tilt) */
-    {
-        int brow_lift, brow_tilt;
-        switch (state) {
-        case ST_HAPPY:     brow_lift = 6;  brow_tilt =  2; break;
-        case ST_SURPRISED: brow_lift = 10; brow_tilt =  3; break;
-        case ST_NEUTRAL:   brow_lift = 5;  brow_tilt =  0; break;
-        case ST_SLEEPY:    brow_lift = 3;  brow_tilt = -1; break;
-        case ST_ASLEEP:    brow_lift = 2;  brow_tilt = -1; break;
-        case ST_ANNOYED:   brow_lift = 4;  brow_tilt = -3; break;
-        default:           brow_lift = 5;  brow_tilt =  0; break;
-        }
-        draw_eyebrow(EYE_L_CX + ldx, EYE_CY + gaze_y, lw, lh,
-                     brow_lift, brow_tilt, false);
-        draw_eyebrow(EYE_R_CX + rdx, EYE_CY + gaze_y, rw, rh,
-                     brow_lift, brow_tilt, true);
-    }
+    /* Nose dot (centered between eyes, slightly below) */
+    draw_nose(gaze_y);
 
     /* Happy sparkle + joy marks (ramps up after sustained typing) */
     if (state == ST_HAPPY && sparkle_ramp > SPARKLE_DELAY && !is_blinking()) {
@@ -866,19 +867,11 @@ static int emo_event_cb(const zmk_event_t *eh)
         key_heat += 4;
 
         if (state == ST_ASLEEP || state == ST_ANNOYED) {
-            /* Wake up startled */
-            set_state(ST_SURPRISED);
-            return_timer = rng_range(15, 30);    /* 0.25-0.5 s */
-            return_state = ST_HAPPY;
-            key_heat = HAPPY_HEAT_THRESHOLD;     /* ensure HAPPY after surprise */
-        } else if (detect_burst()) {
-            if (state != ST_SURPRISED) {
-                set_state(ST_SURPRISED);
-                return_timer = rng_range(10, 20); /* 0.15-0.3 s */
-                return_state = ST_HAPPY;
-            }
+            /* Wake up happy */
+            set_state(ST_HAPPY);
+            key_heat = HAPPY_HEAT_THRESHOLD;
         } else if (key_heat >= HAPPY_HEAT_THRESHOLD &&
-                   state != ST_HAPPY && state != ST_SURPRISED) {
+                   state != ST_HAPPY) {
             set_state(ST_HAPPY);
         }
     }
