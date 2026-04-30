@@ -87,7 +87,7 @@ The middle three keys on each home row side double as modifiers when **held**:
 - `hold-trigger-on-release`: allows combining multiple mods on the same hand
 - `tapping-term`: 280ms — intentionally large; makes behavior timer-insensitive
 - `quick-tap`: 175ms — rapid same-key repeats always produce taps (e.g., `ll`)
-- `require-prior-idle`: 150ms — if you typed any key less than 150ms ago, it always types the letter
+- `require-prior-idle`: 175ms — if you typed any key less than 175ms ago, it always types the letter
 
 ---
 
@@ -275,8 +275,8 @@ Located in `config/corne.conf`:
 
 | Setting | Value | Purpose |
 |---------|-------|---------|
-| Press debounce | 1ms | Near-instant key registration (eager debounce) |
-| Release debounce | 5ms | Standard release filtering |
+| Press debounce | 5ms | Filters switch bounce while staying responsive |
+| Release debounce | 5ms | Symmetric release filtering |
 | BT min interval | 6 | Locks BT polling for consistent wireless latency |
 | Sleep timeout | 30 min | Deep sleep after inactivity to save battery |
 
